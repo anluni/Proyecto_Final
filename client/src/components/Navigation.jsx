@@ -18,7 +18,7 @@ const Navigation = () => {
 
         {/* ✅ LOGO */}
         <Navbar.Brand as={Link} to="/" className="fw-bold d-flex align-items-center">
-          <span className="text-accent fs-2 me-1">SRM</span>
+          <span className="text-accent fs-2 me-1">SARM</span>
           <span className="fs-4">Asesorías Económico Financieras</span>
         </Navbar.Brand>
 
