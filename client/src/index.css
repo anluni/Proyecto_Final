@@ -1,0 +1,162 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+/* 🎨 PALETA BASADA EN TU LOGO SRM */
+:root {
+  --primary-blue: #1e3a5f;
+  --dark-blue: #0f2a44;
+  --light-blue: #3b82f6;
+
+  --silver: #9ca3af;
+  --steel-gray: #6b7280;
+
+  --bg-deep: #050a14;
+  --card-bg: rgba(15, 42, 68, 0.75);
+  --input-bg: rgba(30, 58, 95, 0.6);
+
+  --text-main: #ffffff;
+  --text-muted: #9ca3af;
+
+  --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 🌌 FONDO GENERAL */
+body {
+  background: radial-gradient(circle at top right, #0f2a44, var(--bg-deep) 50%);
+  background-attachment: fixed;
+  color: var(--text-main);
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  min-height: 100vh;
+}
+
+/* ✅ TEXTO GENERAL */
+p, span, label, input, textarea, .text-secondary, .text-muted {
+  color: var(--text-muted) !important;
+}
+
+h1, h2, h3, h4, h5, h6, .navbar-brand, .nav-link, .card-title {
+  color: var(--text-main) !important;
+}
+
+/* ✅ HOVER NAV */
+.nav-link:hover {
+  color: var(--light-blue) !important;
+}
+
+/* ✅ TIPOGRAFÍA */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* ✅ ACENTO (LOGO STYLE) */
+.text-accent {
+  background: linear-gradient(135deg, var(--primary-blue), var(--light-blue));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ✅ NAVBAR */
+.navbar {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background-color: rgba(5, 10, 20, 0.85) !important;
+  border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+  padding: 1rem 0;
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  letter-spacing: -1px;
+}
+
+/* ✅ CARDS */
+.product-card {
+  background: var(--card-bg) !important;
+  border-radius: 18px !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(8px);
+  transition: var(--transition-smooth);
+}
+
+.product-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  border-color: var(--light-blue) !important;
+  box-shadow: 0 15px 35px rgba(30, 58, 95, 0.5) !important;
+}
+
+/* ✅ AUTH CARD */
+.auth-card {
+  background: var(--card-bg) !important;
+  border-radius: 24px !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+}
+
+/* ✅ BOTONES */
+.btn-accent {
+  background: linear-gradient(135deg, var(--primary-blue), var(--light-blue));
+  border: none;
+  border-radius: 12px;
+  padding: 0.8rem 1.5rem;
+  color: white;
+  font-weight: 600;
+  transition: var(--transition-smooth);
+}
+
+.btn-accent:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+  color: white;
+}
+
+/* ✅ INPUTS */
+.form-control {
+  background-color: var(--input-bg) !important;
+  border: 1px solid rgba(156, 163, 175, 0.2) !important;
+  border-radius: 12px !important;
+  color: white !important;
+  padding: 0.75rem 1rem !important;
+  transition: var(--transition-smooth);
+}
+
+.form-control:focus {
+  border-color: var(--light-blue) !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2) !important;
+}
+
+.form-control::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* ✅ ANIMACIONES */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeInUp 0.8s var(--transition-smooth) both;
+}
+
+/* ✅ SCROLL */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-deep);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-blue);
+  border-radius: 10px;
+}
