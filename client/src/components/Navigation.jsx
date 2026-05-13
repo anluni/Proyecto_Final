@@ -1,4 +1,3 @@
-
 import { Navbar, Container, Nav, Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
@@ -16,29 +15,53 @@ const Navigation = () => {
     <Navbar expand="lg" variant="dark" className="navbar" sticky="top">
       <Container>
 
-        {/* ✅ LOGO */}
-        <Navbar.Brand as={Link} to="/" className="fw-bold d-flex align-items-center">
-          <span className="text-accent fs-2 me-1">SARM</span>
-          <span className="fs-4">Asesorías Económico Financieras</span>
+        {/* LOGO */}
+        <Navbar.Brand
+          as={Link}
+          to="/"
+          className="fw-bold d-flex align-items-center"
+        >
+          <span className="text-accent fs-2 me-1">SRM</span>
+          <span className="fs-4">Tu tienda tecnológica</span>
         </Navbar.Brand>
 
-        <Navbar.Toggle aria-controls="navbar-nav" className="border-0 shadow-none">
-          <span className="navbar-toggler-icon"></span>
-        </Navbar.Toggle>
+        <Navbar.Toggle
+          aria-controls="navbar-nav"
+          className="border-0 shadow-none"
+        />
 
         <Navbar.Collapse id="navbar-nav">
 
-          {/* ✅ MENÚ CENTRO (CUADRO ROJO) */}
+          {/* MENÚ CENTRO */}
           <Nav className="mx-auto align-items-center">
-            <Nav.Link className="px-3">Misión</Nav.Link>
-            <Nav.Link className="px-3">Visión</Nav.Link>
-            <Nav.Link className="px-3">Quiénes somos</Nav.Link>
-            <Nav.Link className="px-3">Contacto</Nav.Link>
+
+            <Nav.Link as={Link} to="/" className="px-3">
+              Home
+            </Nav.Link>
+
+            <Nav.Link as={Link} to="/mision" className="px-3">
+              Misión
+            </Nav.Link>
+
+            <Nav.Link as={Link} to="/vision" className="px-3">
+              Visión
+            </Nav.Link>
+
+            <Nav.Link as={Link} to="/catalogo" className="px-3">
+              Catálogo
+            </Nav.Link>
+            
+            <Nav.Link as={Link} to="/quienes-somos" className="px-3">
+              Quiénes somos
+            </Nav.Link>
+
+            <Nav.Link as={Link} to="/contacto" className="px-3">
+              Contacto
+            </Nav.Link>
           </Nav>
 
-          {/* ✅ MENÚ DERECHA */}
+          {/* MENÚ DERECHA (SIN CATÁLOGO) */}
           <Nav className="align-items-center">
-            <Nav.Link as={Link} to="/" className="px-3">Catálogo</Nav.Link>
 
             {token ? (
               <Button
@@ -50,7 +73,10 @@ const Navigation = () => {
               </Button>
             ) : (
               <>
-                <Nav.Link as={Link} to="/login" className="px-3">Login</Nav.Link>
+                <Nav.Link as={Link} to="/login" className="px-3">
+                  Login
+                </Nav.Link>
+
                 <Nav.Link as={Link} to="/register" className="ms-lg-2">
                   <Button className="btn-accent px-4 py-2">
                     Empieza Ahora
@@ -58,6 +84,7 @@ const Navigation = () => {
                 </Nav.Link>
               </>
             )}
+
           </Nav>
 
         </Navbar.Collapse>

@@ -129,33 +129,37 @@ app.get("/items/:id", async (req, res) => {
   res.json(result.rows);
 });
 
+
 app.post("/items", async (req, res) => {
   try {
-    const { name, price } = req.body;
-    const values = [name, price];
+    const { name, price, image } = req.body;
+
     const result = await pool.query(
-      "INSERT INTO item (name, price) VALUES ($1, $2) RETURNING *",
-      values,
+      "INSERT INTO item (name, price, image) VALUES ($1, $2, $3) RETURNING *",
+      [name, price, image]
     );
-    res.status(201).json({ message: "Producto creado con éxito!", item: result.rows[0] });
-  } catch (error) {
-    console.error("❌ Error en la consulta POST /items: " + error);
-    res.status(500).json({
-      error: error.code,
-      message: error.message,
+
+    res.status(201).json({
+      message: "Producto creado con éxito!",
+      item: result.rows[0]
     });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
   }
 });
 
 app.put("/items/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, price } = req.body;
+    const { name, price, image } = req.body;
 
-    let consulta = "UPDATE item SET name = $1, price = $2 WHERE id = $3 RETURNING *";
-    let values = [name, price, id];
+    let consulta = "UPDATE item SET name = $1, price = $2, image = $3 WHERE id = $4 RETURNING *";
+    let values = [name, price, image, id];
     const result = await pool.query(consulta, values);
-    res.status(200).json({ message: "Producto actualizado con éxito!", item: result.rows[0] });
+    res.status(200).json({ message: "Producto actualizado con éxito!", item: result.rows[0] 
+    });
   } catch (error) {
     console.error("❌ Error en la consulta PUT /items: " + error);
     res.status(500).json({

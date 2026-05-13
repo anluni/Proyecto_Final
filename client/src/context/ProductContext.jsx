@@ -8,10 +8,13 @@ export const ProductProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const { token } = useAuth();
 
+  // ✅ OBTENER PRODUCTOS
   const getProducts = async () => {
     setLoading(true);
     try {
-      const res = await fetch(import.meta.env.VITE_BACKEND_URL + "/items?limit=999999");
+      const res = await fetch(
+        import.meta.env.VITE_BACKEND_URL + "/items?limit=999999"
+      );
       const data = await res.json();
       setItems(data.result || []);
     } catch (error) {
@@ -21,58 +24,87 @@ export const ProductProvider = ({ children }) => {
     }
   };
 
-  const addProduct = async (name, price) => {
+  // ✅ AGREGAR PRODUCTO (AHORA CON IMAGE)
+  const addProduct = async (name, price, image) => {
     try {
-      const res = await fetch(import.meta.env.VITE_BACKEND_URL + "/items", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, price }),
-      });
-      if (res.ok) {
-        await getProducts();
-        return { success: true };
-      }
-    } catch (error) {
-      return { success: false, message: error.message };
-    }
-  };
+      const res = await fetch(
+        import.meta.env.VITE_BACKEND_URL + "/items",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name, price, image }), 
+        }
+      );
 
-  const updateProduct = async (id, name, price) => {
-    try {
-      const res = await fetch(import.meta.env.VITE_BACKEND_URL + "/items/" + id, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-        body: JSON.stringify({ name, price }),
-      });
       if (res.ok) {
         await getProducts();
         return { success: true };
       } else {
         const errorData = await res.json();
-        return { success: false, message: errorData.message || "Error al actualizar" };
+        return {
+          success: false,
+          message: errorData.message || "Error al guardar",
+        };
       }
     } catch (error) {
       return { success: false, message: error.message };
     }
   };
 
+  // ✅ ACTUALIZAR PRODUCTO (CON IMAGE)
+  const updateProduct = async (id, name, price, image) => {
+    try {
+      const res = await fetch(
+        import.meta.env.VITE_BACKEND_URL + "/items/" + id,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+          body: JSON.stringify({ name, price, image }), // ✅ IMPORTANTE
+        }
+      );
+
+      if (res.ok) {
+        await getProducts();
+        return { success: true };
+      } else {
+        const errorData = await res.json();
+        return {
+          success: false,
+          message: errorData.message || "Error al actualizar",
+        };
+      }
+    } catch (error) {
+      return { success: false, message: error.message };
+    }
+  };
+
+  // ✅ ELIMINAR PRODUCTO
   const deleteProduct = async (id) => {
     try {
-      const res = await fetch(import.meta.env.VITE_BACKEND_URL + "/items/" + id, {
-        method: "DELETE",
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      });
+      const res = await fetch(
+        import.meta.env.VITE_BACKEND_URL + "/items/" + id,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+
       if (res.ok) {
         await getProducts();
         return { success: true };
       } else {
         const errorData = await res.json();
-        return { success: false, message: errorData.message || "Error al eliminar" };
+        return {
+          success: false,
+          message: errorData.message || "Error al eliminar",
+        };
       }
     } catch (error) {
       return { success: false, message: error.message };
@@ -84,7 +116,16 @@ export const ProductProvider = ({ children }) => {
   }, []);
 
   return (
-    <ProductContext.Provider value={{ items, loading, getProducts, addProduct, updateProduct, deleteProduct }}>
+    <ProductContext.Provider
+      value={{
+        items,
+        loading,
+        getProducts,
+        addProduct,
+        updateProduct,
+        deleteProduct,
+      }}
+    >
       {children}
     </ProductContext.Provider>
   );

@@ -55,6 +55,7 @@ const getItems = async ({ limit = 3, order_by = "id_ASC", page = 0 }) => {
       id: item.id,
       name: item.name,
       price: item.price,
+      image: item.image,
       url: `http://localhost:3000/items/${item.id}`,
     }));
 

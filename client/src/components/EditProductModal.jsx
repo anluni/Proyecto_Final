@@ -7,18 +7,20 @@ const EditProductModal = ({ show, handleClose, product }) => {
   const [price, setPrice] = useState("");
   const [loading, setLoading] = useState(false);
   const { updateProduct } = useItem();
+  const [image, setImage] = useState("");
 
   useEffect(() => {
     if (product) {
       setName(product.name);
       setPrice(product.price);
+      setImage(product.image || "");
     }
   }, [product]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const result = await updateProduct(product.id, name, parseFloat(price));
+    const result = await updateProduct(product.id, name, parseFloat(price), image);
     setLoading(false);
     if (result.success) {
       handleClose();
