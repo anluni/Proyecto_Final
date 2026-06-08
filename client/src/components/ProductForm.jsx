@@ -12,7 +12,10 @@ const ProductForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!name || !price) return;
+    if (!name || !price || !image) {
+      alert("Completa todos los campos");
+      return;
+    }
 
     const result = await addProduct(name, parseFloat(price), image);
 
@@ -25,74 +28,104 @@ const ProductForm = () => {
     }
   };
 
+  const formatNumber = (value) => {
+    return value.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  };
+
   return (
     <Card className="auth-card border-0 mb-4 form-card overflow-hidden">
       <Card.Body className="p-4 rounded-4">
-        
-        <h4 className="mb-4 fw-bold text-center text-white">
+        {/*TÍTULO */}
+        <h4 className="fw-bold text-center text-white mb-2">
           Publicar Producto
         </h4>
 
-        <Form onSubmit={handleSubmit}>
+        <p className="text-center text-muted mb-4">
+          Completa la información del producto
+        </p>
 
-          {/* ✅ NOMBRE */}
+        <Form onSubmit={handleSubmit}>
+          {/*NOMBRE */}
           <Form.Group className="mb-4">
-            <Form.Label className="text-light">Nombre</Form.Label>
+            <Form.Label className="text-light d-block mb-2">Nombre</Form.Label>
+
             <Form.Control
               type="text"
               placeholder="Ej: iPhone 17"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              className="mb-3"
               style={{
                 height: "50px",
-                borderRadius: "10px"
+                borderRadius: "10px",
               }}
-              required
             />
           </Form.Group>
 
-          {/* ✅ PRECIO */}
+          {/*PRECIO */}
           <Form.Group className="mb-4">
-            <Form.Label className="text-light">Precio CLP</Form.Label>
+            <Form.Label className="text-light d-block mb-2">
+              Precio CLP
+            </Form.Label>
+
             <Form.Control
-              type="number"
-              step="0.01"
+              type="text"
               placeholder="Ej: 999999"
               value={price}
-              onChange={(e) => setPrice(e.target.value)}
+              onChange={(e) => {
+                const formatted = formatNumber(e.target.value);
+                setPrice(formatted);
+
+                const cleanPrice = price.replace(/\./g, "");
+                parseFloat(cleanPrice);
+              }}
+              className="mb-3"
               style={{
                 height: "50px",
-                borderRadius: "10px"
+                borderRadius: "10px",
               }}
-              required
             />
           </Form.Group>
 
-          {/* ✅ IMAGEN */}
+          {/*IMAGEN / WEB*/}
           <Form.Group className="mb-4">
-            <Form.Label className="text-light">URL de la imagen</Form.Label>
+            <Form.Label className="text-light d-block mb-2">
+              URL de la página web o imagen
+            </Form.Label>
+
             <Form.Control
               type="text"
               placeholder="https://..."
               value={image}
               onChange={(e) => setImage(e.target.value)}
+              className="mb-3"
               style={{
                 height: "50px",
-                borderRadius: "10px"
+                borderRadius: "10px",
               }}
-              required
             />
           </Form.Group>
 
-          {/* ✅ BOTÓN */}
-          <Button
-            variant="accent"
-            type="submit"
-            className="btn-accent w-100 py-3 shadow-lg"
-          >
+          {/*PREVIEW */}
+          {image && (
+            <div className="text-center mb-4">
+              <img
+                src={image}
+                alt="preview"
+                style={{
+                  maxWidth: "100%",
+                  maxHeight: "200px",
+                  borderRadius: "10px",
+                  objectFit: "cover",
+                }}
+              />
+            </div>
+          )}
+
+          {/*BOTÓN */}
+          <Button type="submit" className="btn-accent w-100 py-3 shadow-lg">
             Añadir al Catálogo
           </Button>
-
         </Form>
       </Card.Body>
     </Card>

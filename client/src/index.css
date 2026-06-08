@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
 
-/* 🎨 PALETA BASADA EN TU LOGO SRM */
+/*PALETA SRM */
 :root {
   --primary-blue: #1e3a5f;
   --dark-blue: #0f2a44;
@@ -19,7 +19,7 @@
   --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* 🌌 FONDO GENERAL */
+/* FONDO GENERAL */
 body {
   background: radial-gradient(circle at top right, #0f2a44, var(--bg-deep) 50%);
   background-attachment: fixed;
@@ -30,7 +30,7 @@ body {
   min-height: 100vh;
 }
 
-/* ✅ TEXTO GENERAL */
+/* TEXTO GENERAL */
 p, span, label, input, textarea, .text-secondary, .text-muted {
   color: var(--text-muted) !important;
 }
@@ -39,18 +39,18 @@ h1, h2, h3, h4, h5, h6, .navbar-brand, .nav-link, .card-title {
   color: var(--text-main) !important;
 }
 
-/* ✅ HOVER NAV */
+/* HOVER NAV */
 .nav-link:hover {
   color: var(--light-blue) !important;
 }
 
-/* ✅ TIPOGRAFÍA */
+/* TIPOGRAFÍA */
 h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   letter-spacing: -0.02em;
 }
 
-/* ✅ ACENTO (LOGO STYLE) */
+/* ACENTO (LOGO STYLE) */
 .text-accent {
   background: linear-gradient(135deg, var(--primary-blue), var(--light-blue));
   -webkit-background-clip: text;
@@ -58,7 +58,7 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-text-fill-color: transparent;
 }
 
-/* ✅ NAVBAR */
+/* NAVBAR */
 .navbar {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -72,7 +72,7 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: -1px;
 }
 
-/* ✅ CARDS */
+/* CARDS */
 .product-card {
   background: var(--card-bg) !important;
   border-radius: 18px !important;
@@ -87,7 +87,7 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 15px 35px rgba(30, 58, 95, 0.5) !important;
 }
 
-/* ✅ AUTH CARD */
+/* AUTH CARD */
 .auth-card {
   background: var(--card-bg) !important;
   border-radius: 24px !important;
@@ -95,7 +95,7 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
 }
 
-/* ✅ BOTONES */
+/* BOTONES */
 .btn-accent {
   background: linear-gradient(135deg, var(--primary-blue), var(--light-blue));
   border: none;
@@ -112,7 +112,7 @@ h1, h2, h3, h4, h5, h6 {
   color: white;
 }
 
-/* ✅ INPUTS */
+/* INPUTS */
 .form-control {
   background-color: var(--input-bg) !important;
   border: 1px solid rgba(156, 163, 175, 0.2) !important;
@@ -131,7 +131,7 @@ h1, h2, h3, h4, h5, h6 {
   color: rgba(255, 255, 255, 0.3);
 }
 
-/* ✅ ANIMACIONES */
+/* ANIMACIONES */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -147,7 +147,7 @@ h1, h2, h3, h4, h5, h6 {
   animation: fadeInUp 0.8s var(--transition-smooth) both;
 }
 
-/* ✅ SCROLL */
+/* SCROLL */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -159,4 +159,30 @@ h1, h2, h3, h4, h5, h6 {
 ::-webkit-scrollbar-thumb {
   background: var(--primary-blue);
   border-radius: 10px;
+}
+
+/* BODY CARD EDITAR */
+.modal-content {
+  background-color: #0f2a44 !important;
+  color: white;
+  border-radius: 20px;
+  border: none;
+}
+
+/* MODAL CONTENT */
+.modal-content {
+  background-color: #0f2a44 !important;
+  border-radius: 20px;
+  border: none !important;
+}
+
+/* HEADER */
+.modal-header {
+  background-color: #0f2a44 !important;
+  border-bottom: none !important;
+}
+
+/* BODY */
+.modal-body {
+  background-color: #0f2a44 !important;
 }

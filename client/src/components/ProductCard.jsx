@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Card, Button, Stack } from "react-bootstrap";
 import { useItem } from "../context/ProductContext";
 import { useAuth } from "../context/AuthContext";
-import EditProductModal from "./EditProductModal";
+import EditProductModal from "../components/EditProductModal";
 
 const ProductCard = ({ product }) => {
   const { deleteProduct } = useItem();
@@ -22,13 +22,15 @@ const ProductCard = ({ product }) => {
     setShowEdit(true);
   };
 
+  const formatNumber = (value) => {
+    return value.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  };
+
   return (
     <>
       <Card className="h-100 product-card shadow-sm border-0 overflow-hidden">
-
-        {/* ✅ CONTENIDO */}
+        {/*CONTENIDO */}
         <Card.Body className="d-flex flex-column p-4">
-
           {/* NOMBRE + PRECIO */}
           <Stack direction="horizontal" className="mb-3 align-items-start">
             <Card.Title className="mb-0 fw-bold fs-5 text-light">
@@ -37,12 +39,12 @@ const ProductCard = ({ product }) => {
 
             <div className="ms-auto text-end">
               <span className="badge rounded-pill bg-hero px-3 py-2 fw-bold text-white shadow-sm">
-                ${product.price}
+                ${Number(product.price).toLocaleString("es-CL")}
               </span>
             </div>
           </Stack>
 
-          {/* ✅ IMAGEN (DEBAJO DEL PRECIO) */}
+          {/*IMAGEN (DEBAJO DEL PRECIO) */}
           {product.image && (
             <img
               src={product.image}
@@ -89,7 +91,6 @@ const ProductCard = ({ product }) => {
               )}
             </Stack>
           </div>
-
         </Card.Body>
       </Card>
 

@@ -47,10 +47,13 @@ const Navigation = () => {
               Visión
             </Nav.Link>
 
-            <Nav.Link as={Link} to="/catalogo" className="px-3">
-              Catálogo
-            </Nav.Link>
-            
+            {/* ✅ CATÁLOGO SOLO SI HAY LOGIN */}
+            {token && (
+              <Nav.Link as={Link} to="/catalogo" className="px-3">
+                Catálogo
+              </Nav.Link>
+            )}
+
             <Nav.Link as={Link} to="/quienes-somos" className="px-3">
               Quiénes somos
             </Nav.Link>
@@ -60,7 +63,7 @@ const Navigation = () => {
             </Nav.Link>
           </Nav>
 
-          {/* MENÚ DERECHA (SIN CATÁLOGO) */}
+          {/* MENÚ DERECHA */}
           <Nav className="align-items-center">
 
             {token ? (
