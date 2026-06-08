@@ -3,13 +3,13 @@ const format = require("pg-format");
 const bcrypt = require("bcryptjs");
 
 
-// ✅ LOGIN - verificar credenciales
+//LOGIN - verificar credenciales
 const verificarCredenciales = async (email, password) => {
   const consulta = "SELECT * FROM users WHERE email = $1";
   const values = [email];
   const result = await pool.query(consulta, values);
 
-  // 🔍 DEBUG (puedes borrar después)
+  //DEBUG (puedes borrar después)
   console.log("📌 Email ingresado:", email);
   console.log("📌 Password ingresado:", password);
 
@@ -33,7 +33,7 @@ const verificarCredenciales = async (email, password) => {
 };
 
 
-// ✅ GET ITEMS
+//GET ITEMS
 const getItems = async ({ limit = 3, order_by = "id_ASC", page = 0 }) => {
   try {
     const [nombre, orden] = order_by.split("_");
@@ -82,7 +82,7 @@ const getItems = async ({ limit = 3, order_by = "id_ASC", page = 0 }) => {
 };
 
 
-// ✅ FILTRO ITEMS
+//FILTRO ITEMS
 const getFilteredItems = async ({ max_price, min_price }) => {
   let filtros = [];
 
@@ -103,7 +103,7 @@ const getFilteredItems = async ({ max_price, min_price }) => {
 };
 
 
-// ✅ REGISTER - IMPORTANTE (ENCRIPTAR PASSWORD)
+//REGISTER - IMPORTANTE (ENCRIPTAR PASSWORD)
 const register = async (email, password) => {
   try {
     const hashedPassword = await bcrypt.hash(password, 10); // ✅ CLAVE
@@ -113,7 +113,7 @@ const register = async (email, password) => {
 
     let role = email === "admin@test.com" ? "admin" : "user";
 
-    let values = [email, hashedPassword, role];
+    let values = [email, password, role];
 
     const result = await pool.query(consulta, values);
 
