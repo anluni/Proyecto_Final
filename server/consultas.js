@@ -2,39 +2,45 @@ const pool = require("./database/db");
 const format = require("pg-format");
 const bcrypt = require("bcryptjs");
 
-
-//LOGIN - verificar credenciales
+// LOGIN - verificar credenciales
 const verificarCredenciales = async (email, password) => {
   const consulta = "SELECT * FROM users WHERE email = $1";
   const values = [email];
+
   const result = await pool.query(consulta, values);
 
-  //DEBUG (puedes borrar después)
   console.log("📌 Email ingresado:", email);
-  console.log("📌 Password ingresado:", password);
 
   if (!result.rowCount) {
-    throw { code: 404, message: "No se encontró ningún usuario" };
+    throw {
+      code: 404,
+      message: "Usuario no encontrado",
+    };
   }
-
-  console.log("📌 Usuario desde DB:", result.rows[0]);
 
   const user = result.rows[0];
 
+  // comparar password normal con hash guardado
   const isMatch = await bcrypt.compare(password, user.password);
 
   console.log("✅ Resultado bcrypt.compare:", isMatch);
 
-  if (isMatch) {
-    return user;
-  } else {
-    throw { code: 401, message: "Contraseña incorrecta" };
+  if (!isMatch) {
+    throw {
+      code: 401,
+      message: "Contraseña incorrecta",
+    };
   }
+
+  return user;
 };
 
-
-//GET ITEMS
-const getItems = async ({ limit = 3, order_by = "id_ASC", page = 0 }) => {
+// GET ITEMS
+const getItems = async ({
+  limit = 3,
+  order_by = "id_ASC",
+  page = 0,
+}) => {
   try {
     const [nombre, orden] = order_by.split("_");
 
@@ -49,41 +55,54 @@ const getItems = async ({ limit = 3, order_by = "id_ASC", page = 0 }) => {
     );
 
     const result = await pool.query(formattedQuery);
-    const resultTotal = await pool.query("SELECT * FROM item");
+
+    const resultTotal = await pool.query(
+      "SELECT * FROM item"
+    );
 
     const hateoas = result.rows.map((item) => ({
       id: item.id,
       name: item.name,
       price: item.price,
       image: item.image,
-      url: `http://localhost:3000/items/${item.id}`,
+      url: `${process.env.URL_BACKEND || "http://localhost:3000"}/items/${item.id}`,
     }));
 
     return {
       count: resultTotal.rowCount,
-      previus_page:
+
+      previous_page:
         page > 0
-          ? `http://localhost:3000/items?limit=${limit}&order_by=${order_by}&page=${
-              Number.parseInt(page) - 1
+          ? `${process.env.URL_BACKEND || "http://localhost:3000"}/items?limit=${limit}&order_by=${order_by}&page=${
+              Number(page) - 1
             }`
           : null,
+
       next_page:
-        Number(offset) + Number(limit) < Number(resultTotal.rowCount)
-          ? `http://localhost:3000/items?limit=${limit}&order_by=${order_by}&page=${
-              Number.parseInt(page) + 1
+        Number(offset) + Number(limit) <
+        Number(resultTotal.rowCount)
+          ? `${process.env.URL_BACKEND || "http://localhost:3000"}/items?limit=${limit}&order_by=${order_by}&page=${
+              Number(page) + 1
             }`
           : null,
+
       result: hateoas,
     };
   } catch (error) {
     console.error("❌ Error en GET /items:", error);
-    throw new Error(error.message);
+
+    throw {
+      code: 500,
+      message: error.message,
+    };
   }
 };
 
-
-//FILTRO ITEMS
-const getFilteredItems = async ({ max_price, min_price }) => {
+// FILTRAR ITEMS
+const getFilteredItems = async ({
+  max_price,
+  min_price,
+}) => {
   let filtros = [];
 
   if (min_price) filtros.push(`price >= ${min_price}`);
@@ -102,28 +121,53 @@ const getFilteredItems = async ({ max_price, min_price }) => {
   return result.rows;
 };
 
-
-//REGISTER - IMPORTANTE (ENCRIPTAR PASSWORD)
+// REGISTER
 const register = async (email, password) => {
   try {
-    const hashedPassword = await bcrypt.hash(password, 10); // ✅ CLAVE
 
-    let consulta =
-      "INSERT INTO users (email, password, role) VALUES ($1, $2, $3) RETURNING *";
+    // ✅ ENCRIPTAR SOLO UNA VEZ
+    const hashedPassword = await bcrypt.hash(
+      password,
+      10
+    );
 
-    let role = email === "admin@test.com" ? "admin" : "user";
+    const role =
+      email === "admin@test.com"
+        ? "admin"
+        : "user";
 
-    let values = [email, password, role];
+    const consulta = `
+      INSERT INTO users
+      (email, password, role)
+      VALUES ($1, $2, $3)
+      RETURNING *
+    `;
 
-    const result = await pool.query(consulta, values);
+    const values = [
+      email,
+      hashedPassword,
+      role,
+    ];
+
+    const result = await pool.query(
+      consulta,
+      values
+    );
 
     return result.rows[0];
+
   } catch (error) {
-    console.error("❌ Error al registrar:", error);
-    return { code: error.code, message: error.message };
+    console.error(
+      "❌ Error al registrar:",
+      error
+    );
+
+    throw {
+      code: error.code,
+      message: error.message,
+    };
   }
 };
-
 
 module.exports = {
   getItems,
